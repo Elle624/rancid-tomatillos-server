@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 const app = express();
 
 app.set('port', process.env.PORT || 3001);
 app.use(express.json());
+app.use(cors());
 
-app.locals.title = 'Users';
+app.locals.title = 'Watch List';
 app.locals.watchList = [];
 
 app.listen(app.get('port'), () => {
