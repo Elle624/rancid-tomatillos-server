@@ -19,29 +19,3 @@ app.get('/watch-list', (request, response) => {
   const { watchList } = app.locals;
   response.json(watchList);
 });
-
-app.post('/watch-list/:movie_id', (request, response) => {
-  const { watchList } = app.locals;
-  const newMovie = request.body;
-  const { movie_id } = request.params;
-  if (parseInt(movie_id) === newMovie.id) {
-    watchList.push(newMovie)
-    response.status(200).send(`You have added ${newMovie.title} to your watch list!`)
-  } else {
-    response.status(201).send('Could not add movie to watch list because of an improper id. Please try again.')
-  }
-})
-
-app.delete('/watch-list/:movie_id', (request, response) => {
-  let { watchList } = app.locals;
-  const deletedMovie = request.body;
-  const { movie_id } = request.params;
-  const correctUrl = watchList.find((movie) => movie.id === parseInt(movie_id));
-  if(correctUrl && parseInt(movie_id) === deletedMovie.id) {
-    const newWatchList = watchList.filter((movie) => movie.id !== deletedMovie.id);
-    app.locals.watchList = newWatchList;
-    response.json(`${correctUrl.title} has been removed from your watch list.`);
-  } else {
-    response.status(201).send('Could not remove movie from your watch list because of an improper id. Please try again.')
-  }
-})
