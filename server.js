@@ -19,3 +19,15 @@ app.get('/watch-list', (request, response) => {
   const { watchList } = app.locals;
   response.json(watchList);
 });
+
+app.post('/watch-list/:movie_id', (request, response) => {
+  const { watchList } = app.locals;
+  const newMovie = request.body;
+  const { movie_id } = request.params;
+  if (parseInt(movie_id) === newMovie.id) {
+    watchList.push(newMovie)
+    response.status(200).send(`You have added ${newMovie.title} to your watch list!`)
+  } else {
+    response.status(201).send('Could not add movie to watch list because of an improper id. Please try again.')
+  }
+})
