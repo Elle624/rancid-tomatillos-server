@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 app.locals.title = 'Watch List';
-app.locals.watchList = { watchList: [] };
+app.locals.watchList = { id: [] };
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
