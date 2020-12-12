@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 app.locals.title = 'Watch List';
-app.locals.watchList = { id: [] };
+app.locals.watchList = { watchListIds: [] };
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
@@ -23,7 +23,7 @@ app.post('/watch-list', (request, response) => {
   const { watchList } = app.locals;
   const newMovie = request.body;
   if (newMovie.id) {
-    watchList.id.push(newMovie.id)
+    watchList.watchListIds.push(newMovie.id)
     response.status(200).send(`You have added ${newMovie.id} to your watch list!`)
   } else {
     response.status(201).send('Could not add movie to watch list because of an improper id. Please try again.')
@@ -34,10 +34,10 @@ app.delete('/watch-list', (request, response) => {
   //Body: {id: 123456}
   let { watchList } = app.locals;
   let deletedMovie = request.body.id ? request.body : { id: "" };
-  const chosenMovie = watchList.id.find((id) => id === deletedMovie.id);
+  const chosenMovie = watchList.watchListIds.find((id) => id === deletedMovie.id);
   if (chosenMovie) {
-    const newWatchList = watchList.id.filter((id) => id !== deletedMovie.id);
-    app.locals.watchList.id = newWatchList;
+    const newWatchList = watchList.watchListIds.filter((id) => id !== deletedMovie.id);
+    app.locals.watchList.watchListIds = newWatchList;
     response.json(`${chosenMovie} has been removed from your watch list.`);
   } else {
     response.status(201).send('Could not remove movie from your watch list because of an improper id. Please try again.')
