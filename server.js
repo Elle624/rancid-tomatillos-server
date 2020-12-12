@@ -7,13 +7,13 @@ app.use(express.json());
 app.use(cors());
 
 app.locals.title = 'Watch List';
-app.locals.watchList = [];
+app.locals.watchList = { id: [] };
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
 
-app.get('/watch-list', (request, response) => { 
+app.get('/watch-list', (request, response) => {
   const { watchList } = app.locals;
   response.json(watchList);
 });
@@ -35,7 +35,7 @@ app.delete('/watch-list', (request, response) => {
   let { watchList } = app.locals;
   let deletedMovie = request.body.id ? request.body : { id: "" };
   const chosenMovie = watchList.find((id) => id === deletedMovie.id);
-  if(chosenMovie) {
+  if (chosenMovie) {
     const newWatchList = watchList.filter((id) => id !== deletedMovie.id);
     app.locals.watchList = newWatchList;
     response.json(`${chosenMovie} has been removed from your watch list.`);
